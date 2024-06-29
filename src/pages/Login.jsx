@@ -1,8 +1,10 @@
 // import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { Link, useNavigate } from 'react-router-dom';
+import { auth, googleProvider } from '../Firebase/Firebase.config';
 // import { auth, googleProvider } from '../Firebase/Firebase.config';
 
 const Login = () => {
@@ -39,13 +41,13 @@ const handleChange = (e) => {
 
   const handleGoogleSignIn = async () => {
     console.log("google button clicked -> ")
-    // try {
-    //   await signInWithPopup(auth, googleProvider);
-    //   navigate('/manage-student');
-    // } catch (err) {
-    //   setError(err.message);
-    //   console.log(err.message)
-    // }
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/manage-student');
+    } catch (err) {
+      setError(err.message);
+      console.log(err.message)
+    }
   };
 
     return (
