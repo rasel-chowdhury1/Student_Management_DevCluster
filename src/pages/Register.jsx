@@ -1,8 +1,10 @@
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { auth } from '../Firebase/Firebase.config';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -29,12 +31,18 @@ const Register = () => {
             return;
           }
         else{
-        // try {
-        //   await createUserWithEmailAndPassword(auth, email, password);
-        //   navigate('/manage-student');
-        // } catch (err) {
-        //   setError(err.message);
-        // }
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          navigate('/manage-student');
+        } catch (err) {
+            Swal.fire({
+                icon: "error",
+                title: "Something went wrong!",
+                text: `${err.message}`,
+              });
+              
+          setError(err.message);
+        }
     }
       };
 
@@ -95,7 +103,7 @@ const Register = () => {
             <hr />
             <form onSubmit={handleSignUp} className="w-full md:w-1/2">
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Email"
                   name="email"
                   value={email}

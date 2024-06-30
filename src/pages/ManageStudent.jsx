@@ -3,11 +3,18 @@ import StudentTable from '../component/StudentTable';
 import UserEmail from '../component/UserEmail';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchTerm, setClassFilter, setDivisionFilter, setCurrentPage, deleteStudent } from '../redux/features/students/studentSlice';
+import { FaCircleArrowLeft, FaCircleArrowRight } from 'react-icons/fa6';
+import { formatDate } from '../utils/dateFormet';
+import { classArray } from '../utils/classes';
+import { divisionArray } from '../utils/division';
 
 const ManageStudent = () => {
-    
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
     const dispatch = useDispatch();
     const { students, searchTerm, classFilter, divisionFilter, currentPage, studentsPerPage } = useSelector((state) => state.students);
+
+    console.log({ students, searchTerm, classFilter, divisionFilter, currentPage, studentsPerPage })
 
 
    console.log({students})
@@ -17,7 +24,7 @@ const ManageStudent = () => {
         student?.firstName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
         student?.lastName?.toLowerCase().includes(searchTerm?.toLowerCase())
       );
-      const matchesClass = (classFilter === 'All' || student?.class.toString() === classFilter);
+      const matchesClass = (classFilter === 'All' || student?.studentClass.toString() === classFilter);
       const matchesDivision = (divisionFilter === 'All' || student?.division === divisionFilter);
   
       return matchesSearch && matchesClass && matchesDivision;
@@ -70,7 +77,7 @@ const ManageStudent = () => {
                       className="border border-gray-300 rounded-md px-3 py-2 mr-4"
         >
           <option value="All">All Classes</option>
-          {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map( cls => (
+          {classArray.map( cls => (
             <option key={cls} value={cls}>Class {cls}</option>
           ))}
         </select>
@@ -80,34 +87,35 @@ const ManageStudent = () => {
           className="border border-gray-300 rounded-md px-3 py-2"
         >
           <option value="All">All Divisions</option>
-          {['A', 'B', 'C', 'D', 'E'].map(division => (
+          {divisionArray.map(division => (
             <option key={division} value={division}>Division {division}</option>
           ))}
         </select>
                     <div><button onClick={handlePrint} className=' py-[11px]  px-[14px] rounded-md bg-[#F8F9FB]'>Print</button></div>
-                    <div> 25 June 2024 16:20</div>
+                    <div> {formattedDate}</div>
                 </div>
             </div>
 
             <div className='mx-2'>
-                <StudentTable studentData={students}/>
+                <StudentTable studentData={paginatedStudents} delete={handleDelete} />
             </div>
 
             <div className="flex justify-evenly my-4">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                className="bg-red-300 hover:bg-red-400 text-gray-800 flex items-center gap-2 font-bold py-2 px-4 rounded-l"
               >
-                Previous
+               <FaCircleArrowLeft /> Previous 
               </button>
               <span className="px-4 py-2">{`Page ${currentPage} of ${totalPages}`}</span>
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                className="bg-red-300 hover:bg-red-400 
+                flex items-center gap-2 text-gray-800 font-bold py-2 px-4 rounded-r"
               >
-                Next
+                Next <FaCircleArrowRight />
               </button>
             </div>
 

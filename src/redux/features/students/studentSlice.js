@@ -237,7 +237,12 @@ import { createSlice } from '@reduxjs/toolkit';
 // };
 
 const initialState = {
-    students: []
+    students: [],
+    searchTerm: '',
+    classFilter: 'All',
+    divisionFilter: 'All',
+    currentPage: 1,
+  studentsPerPage: 5,
 }
 const studentSlice = createSlice({
   name: 'students',
@@ -247,13 +252,13 @@ const studentSlice = createSlice({
       state.students.push(action.payload);
     },
     updateStudent: (state, action) => {
-      const index = state.students.findIndex(student => student.id === action.payload.id);
+      const index = state.students.findIndex(student => student.rollNumber + student.studentClass === action.payload.rollNumber + student.studentClass);
       if (index !== -1) {
         state.students[index] = action.payload;
       }
     },
     deleteStudent: (state, action) => {
-      state.students = state.students.filter(student => student.id !== action.payload);
+      state.students = state.students.filter(student => student.rollNumber + student.studentClass !== action.payload);
     },
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;

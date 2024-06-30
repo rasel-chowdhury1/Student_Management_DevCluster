@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { LuEye } from "react-icons/lu";
 import { RiEdit2Line } from "react-icons/ri";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
+import { deleteStudent, updateStudent } from '../redux/features/students/studentSlice';
+import { classArray } from '../utils/classes';
+import { divisionArray } from '../utils/division';
 
 const StudentTable = ({studentData}) => {
+    const dispatch = useDispatch()
     const [formData, setFormData] = useState({
         firstName: '',
         middleName: '',
@@ -20,9 +26,7 @@ const StudentTable = ({studentData}) => {
       });
 
 
-      const [selectedTimeline, setSelectedTimeline] = useState(null);
       const handleOpenDialog = (student, modalName) => {
-        setSelectedTimeline(student);
         setFormData({
             firstName: student?.firstName || '',
             middleName: student?.middleName || '',
@@ -68,6 +72,42 @@ const StudentTable = ({studentData}) => {
     document.getElementById(value).close()
   }
 
+  const handleDeletebutton = (roll) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to delete this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            dispatch(deleteStudent(roll))
+          Swal.fire({
+            title: "Deleted!",
+            text: "Student has been deleted.",
+            icon: "success"
+          });
+        }
+      });
+  }
+
+  const handleUpdateButton = (e) => {
+    e.preventDefault();
+    console.log({formData})
+    dispatch(updateStudent(formData))
+    handleCloseModelButton("edit")
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your student updated successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+  }
+
+
     return (
         <div className=''>
             <div className='border-2 rounded-md'>
@@ -90,14 +130,14 @@ const StudentTable = ({studentData}) => {
                             <div className='flex items-center justify-center gap-10'>
                                 <LuEye onClick={() => handleOpenDialog(item, "details")} className='w-[24px] h-[24px] text-[#F33823]'/>
                                 <RiEdit2Line onClick={() => handleOpenDialog(item, "edit")} className='w-[24px] h-[24px] text-[#F33823]' />
-                                <RiDeleteBin6Line className='w-[24px] h-[24px] text-[#F33823]' />
+                                <RiDeleteBin6Line onClick={()=> handleDeletebutton(item.rollNumber+item.studentClass)} className='w-[24px] h-[24px] text-[#F33823]' />
                             </div>
 {/** student edit or update modal start */}
 <dialog id="edit" className="modal">
 <div className="modal-box bg-white dark:bg-black">
 <button id="closeBtn" className="btn btn-sm btn-circle absolute right-2 top-2 bg-white dark:bg-black text-[#0c01a1] dark:text-[#73e9fe]" onClick={() => handleCloseModelButton('edit')}>✕</button>
-<h2 className="text-2xl font-bold mb-4 text-center">Update Plan</h2>
-<form >
+<h2 className="text-2xl font-bold mb-4 text-center">Update Student</h2>
+<form onSubmit={handleUpdateButton}>
 <div className='flex justify-between gap-4 my-2'>
 <input type="text" name="firstName" id="" placeholder='First Name ' 
 value={firstName}
@@ -121,7 +161,7 @@ value={studentClass}
 onChange={handleChange}
 required>
 <option value="volvo">Select Class</option>
-{['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map( cls => (
+{classArray.map( cls => (
 <option key={cls} value={cls}>Class {cls}</option>
 ))}
 </select>
@@ -131,7 +171,7 @@ value={division}
 onChange={handleChange}
 required>
 <option value="volvo">Select Division</option>
-{['A', 'B', 'C', 'D', 'E'].map(division => (
+{divisionArray.map(division => (
 <option key={division} value={division}>Division {division}</option>
 ))}
 </select>

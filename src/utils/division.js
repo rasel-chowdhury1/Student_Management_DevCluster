@@ -1,0 +1,1 @@
+export const divisionArray = ['A', 'B', 'C', 'D', 'E'];

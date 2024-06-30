@@ -3,6 +3,9 @@ import UserEmail from '../component/UserEmail';
 import { useDispatch } from 'react-redux';
 import { addStudent } from '../redux/features/students/studentSlice';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { classArray } from '../utils/classes';
+import { divisionArray } from '../utils/division';
 
 const AddStudent = () => {
     const navigate = useNavigate();
@@ -34,7 +37,13 @@ const AddStudent = () => {
         e.preventDefault();
         console.log({formData});
         dispatch(addStudent(formData));
-        alert("successfully added")
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Student added successfully",
+            showConfirmButton: false,
+            timer: 1500
+          });
     setFormData({
       firstName: '',
       middleName: '',
@@ -50,7 +59,7 @@ const AddStudent = () => {
       profilePicture: null,
     })
     
-    navigate("/")
+    navigate("/manage-student")
       };
     
       const {
@@ -101,7 +110,7 @@ const AddStudent = () => {
         onChange={handleChange}
          required>
             <option value="volvo">Select Class</option>
-            {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map( cls => (
+            {classArray.map( cls => (
                 <option key={cls} value={cls}>Class {cls}</option>
             ))}
         </select>
@@ -111,7 +120,7 @@ const AddStudent = () => {
         onChange={handleChange}
         required>
             <option value="volvo">Select Division</option>
-            {['A', 'B', 'C', 'D', 'E'].map(division => (
+            {divisionArray.map(division => (
                 <option key={division} value={division}>Division {division}</option>
             ))}
         </select>

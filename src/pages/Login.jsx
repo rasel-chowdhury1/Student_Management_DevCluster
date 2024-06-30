@@ -1,11 +1,9 @@
-// import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, googleProvider } from '../Firebase/Firebase.config';
-// import { auth, googleProvider } from '../Firebase/Firebase.config';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,15 +26,15 @@ const handleChange = (e) => {
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     console.log({email,password})
-    // try {
-    //   console.log({email,password})
-    //   setError("")
-    //   await signInWithEmailAndPassword(auth, email, password);
-    //   navigate('/manage-student');
-    // } catch (err) {
-    //   console.log({err})
-    //   setError(err.message);
-    // }
+    try {
+      console.log({email,password})
+      setError("")
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/manage-student');
+    } catch (err) {
+      console.log({err})
+      setError(err.message);
+    }
   };
 
   const handleGoogleSignIn = async () => {
