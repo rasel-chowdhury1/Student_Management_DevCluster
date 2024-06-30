@@ -16,7 +16,11 @@ const AsideNavbar = () => {
                  await signOut(auth)
                 navigate("/login")
             } catch (error) {
-                console.log(error)
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                  });
             }
         }
     };

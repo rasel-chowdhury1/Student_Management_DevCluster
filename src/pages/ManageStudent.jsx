@@ -14,11 +14,7 @@ const ManageStudent = () => {
     const dispatch = useDispatch();
     const { students, searchTerm, classFilter, divisionFilter, currentPage, studentsPerPage } = useSelector((state) => state.students);
 
-    console.log({ students, searchTerm, classFilter, divisionFilter, currentPage, studentsPerPage })
-
-
-   console.log({students})
-  
+    {/** search and filter from all students */}
     const filteredStudents = students.filter(student => {
       const matchesSearch = (
         student?.firstName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
@@ -30,9 +26,8 @@ const ManageStudent = () => {
       return matchesSearch && matchesClass && matchesDivision;
     });
 
-    console.log({filteredStudents})
-
-    const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
+  {/** Pagination calculation */}
+  const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
   const startIndex = (currentPage - 1) * studentsPerPage;
   const paginatedStudents = filteredStudents.slice(startIndex, startIndex + studentsPerPage);
 
@@ -46,7 +41,6 @@ const ManageStudent = () => {
     };
   
     const handleDivisionFilter = (e) => {
-      console.log("Divistion button clicked -> ", e.target.value)
       dispatch(setDivisionFilter(e.target.value));
     };
   
@@ -75,22 +69,22 @@ const ManageStudent = () => {
                       value={classFilter}
                       onChange={handleClassFilter}
                       className="border border-gray-300 rounded-md px-3 py-2 mr-4"
-        >
-          <option value="All">All Classes</option>
-          {classArray.map( cls => (
-            <option key={cls} value={cls}>Class {cls}</option>
-          ))}
-        </select>
-        <select
-          value={divisionFilter}
-          onChange={handleDivisionFilter}
-          className="border border-gray-300 rounded-md px-3 py-2"
-        >
-          <option value="All">All Divisions</option>
-          {divisionArray.map(division => (
-            <option key={division} value={division}>Division {division}</option>
-          ))}
-        </select>
+                    >
+                  <option value="All">All Classes</option>
+                  {classArray.map( cls => (
+                    <option key={cls} value={cls}>Class {cls}</option>
+                  ))}
+                </select>
+                <select
+                  value={divisionFilter}
+                  onChange={handleDivisionFilter}
+                  className="border border-gray-300 rounded-md px-3 py-2"
+                >
+                  <option value="All">All Divisions</option>
+                  {divisionArray.map(division => (
+                    <option key={division} value={division}>Division {division}</option>
+                  ))}
+                </select>
                     <div><button onClick={handlePrint} className=' py-[11px]  px-[14px] rounded-md bg-[#F8F9FB]'>Print</button></div>
                     <div> {formattedDate}</div>
                 </div>

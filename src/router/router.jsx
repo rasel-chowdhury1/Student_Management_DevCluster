@@ -5,6 +5,7 @@ import Layout from "../Layout";
 import ManageStudent from "../pages/ManageStudent";
 import PrivateRoute from './../PrivateRoute/PrivateRoute';
 import AddStudent from "../pages/AddStudent";
+import ErrrorPage from "../pages/ErrroPage";
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register/>
+    },
+    {
+      path: '*',
+      element: <ErrrorPage/>
     }
 ])
 

@@ -35,7 +35,6 @@ const AddStudent = () => {
     
       const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({formData});
         dispatch(addStudent(formData));
         Swal.fire({
             position: "top-end",

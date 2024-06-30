@@ -12,6 +12,7 @@ const Login = () => {
     password: "",
     password2: "",
   });
+const [loading, setLoading] = useState(false)
 const [error, setError] = useState(null);
 
 const { email, password } = formdata;
@@ -24,38 +25,39 @@ const handleChange = (e) => {
   };
 
   const handleEmailSignIn = async (e) => {
+    setLoading(true)
     e.preventDefault();
-    console.log({email,password})
     try {
-      console.log({email,password})
       setError("")
+      if(password.length < 5){
+        setError("password does not match")
+      }
       await signInWithEmailAndPassword(auth, email, password);
+      setLoading(false)
       navigate('/manage-student');
     } catch (err) {
-      console.log({err})
+      setLoading(false)
       setError(err.message);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    console.log("google button clicked -> ")
     try {
       await signInWithPopup(auth, googleProvider);
       navigate('/manage-student');
     } catch (err) {
-      setError(err.message);
-      console.log(err.message)
+      setError(err.message)
     }
   };
 
     return (
         <div className="py-10 px-10 text-[#F33823] ">
-        {/* {loading && (
+        {loading && (
           <div className="flex justify-center items-center">
             <span className="loading loading-ring loading-md"></span>Loging
             Processing....
           </div>
-        )} */}
+        )}
         
         <div className="flex gap-3 justify-center md:justify-normal items-center">
           <Link to={"/"} className="text-2xl font-bold">

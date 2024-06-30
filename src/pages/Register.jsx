@@ -5,6 +5,7 @@ import { TiArrowBackOutline } from 'react-icons/ti';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { auth } from '../Firebase/Firebase.config';
+import { setLogLevel } from 'firebase/app';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Register = () => {
         password2: "",
       });
     const [error, setError] = useState(null);
-    
+    const [loading, setLoading] = useState(false)
     const { email, password, password2 } = formdata;
     const handleChange = (e) => {
         setFormdata({
@@ -24,17 +25,24 @@ const Register = () => {
       };
 
       const handleSignUp = async (e) => {
+        setLoading(false)
+        setError("")
         e.preventDefault();
-        console.log({email,password, password2})
-        if (password !== password2) {
+        if(password.length < 6){
+            setError("Password too short!")
+        }
+        else if (password !== password2) {
             alert("Passwords do not match");
             return;
           }
         else{
         try {
+            setLoading(true)
           await createUserWithEmailAndPassword(auth, email, password);
+          setLoading(false)
           navigate('/manage-student');
         } catch (err) {
+            setLoading(false)
             Swal.fire({
                 icon: "error",
                 title: "Something went wrong!",
@@ -47,24 +55,22 @@ const Register = () => {
       };
 
       const handleGoogleSignIn = async () => {
-        console.log("google button clicked -> ")
-        // try {
-        //   await signInWithPopup(auth, googleProvider);
-        //   navigate('/manage-student');
-        // } catch (err) {
-        //   setError(err.message);
-        //   console.log(err.message)
-        // }
+        try {
+          await signInWithPopup(auth, googleProvider);
+          navigate('/manage-student');
+        } catch (err) {
+          setError(err.message);
+        }
       };
 
     return (
         <div className="py-10 px-10 text-[#F33823]">
-        {/* {loading && (
+         {loading && (
           <div className="flex justify-center items-center">
-            <span className="loading loading-ring loading-md"></span>Loging
+            <span className="loading loading-ring loading-md"></span>Signup 
             Processing....
           </div>
-        )} */}
+        )} 
         
         <div className="flex gap-3 justify-center md:justify-normal items-center mb-4 ">
           <Link to={"/"} className="text-2xl font-bold">
@@ -130,6 +136,7 @@ const Register = () => {
                   className="w-full  outline-none border-2 mt-6 px-8 py-4 bg-[#EEF5F3] rounded-md"
                   required
                 />
+                {error}
                 <button
                   type="submit"
                   className="mt-5 w-full  text-white py-3 rounded-full bg-gradient-to-r from-[#F33823] to-[#73e9fe] hover:from-[#73e9fe] hover:to-[#F33823]" 
