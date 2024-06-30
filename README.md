@@ -46,9 +46,17 @@ This project is a React application designed to manage student records. It featu
     ```sh
      cd student-management
 3. Install dependencies.
+   1.Start the development server
    ```sh
    npm install
   #### Running the App
   ```sh
    npm run dev
+  2. Open your browser and go to http://localhost:3000.
+Figma Flie Link: https://www.figma.com/design/79eBy92PKkGXHqCOEI2WV0/React-Developer-Intern?node-id=0-1&t=DS0UGcGSSkNbsWqh-0
+## Feedback
+
+If you have any feedback or encounter any issues, please don't hesitate to inform us.
+
+Thank you ❤️❤️❤️
 
