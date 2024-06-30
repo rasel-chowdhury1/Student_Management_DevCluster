@@ -52,6 +52,7 @@ This project is a React application designed to manage student records. It featu
   #### Running the App
   ```sh
    npm run dev
+
   2. Open your browser and go to http://localhost:3000.
 
 Figma Flie Link: https://www.figma.com/design/79eBy92PKkGXHqCOEI2WV0/React-Developer-Intern?node-id=0-1&t=DS0UGcGSSkNbsWqh-0
