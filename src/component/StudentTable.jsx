@@ -95,7 +95,6 @@ const StudentTable = ({studentData}) => {
 
   const handleUpdateButton = (e) => {
     e.preventDefault();
-    console.log({formData})
     dispatch(updateStudent(formData))
     handleCloseModelButton("edit")
     Swal.fire({

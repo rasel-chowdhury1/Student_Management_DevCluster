@@ -1,10 +1,10 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { auth } from '../Firebase/Firebase.config';
+import { auth, googleProvider } from '../Firebase/Firebase.config';
 import { setLogLevel } from 'firebase/app';
 
 const Register = () => {
@@ -55,6 +55,7 @@ const Register = () => {
       };
 
       const handleGoogleSignIn = async () => {
+        setError("")
         try {
           await signInWithPopup(auth, googleProvider);
           navigate('/manage-student');
