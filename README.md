@@ -1,5 +1,7 @@
 # Student Management System
 
+##Project Live Link: https://student-management-two-sooty.vercel.app
+
 ## Overview
 
 This project is a React application designed to manage student records. It features a login page with email/password and Google authentication, as well as a comprehensive student management system with CRUD (Create, Read, Update, Delete) functionalities. The application includes search, filter, pagination, and print capabilities.
