@@ -42,4 +42,13 @@ This project is a React application designed to manage student records. It featu
 1. Clone the repository.
    ```sh
    git clone <repository_url>
+2. Navigate to the project directory.
+    ```sh
+     cd student-management
+3. Install dependencies.
+   ```sh
+   npm install
+  #### Running the App
+  ```sh
+   npm run dev
 
